@@ -8,7 +8,7 @@
     <title>front</title>
 
     <!-- Bootstrap -->
-    <link  rel="stylesheet" href="<%=
+    <link rel="stylesheet" href="<%=
       htmlWebpackPlugin.options.ejsVars.relativeStaticRoot
     %>/bootstrap-honoka/css/bootstrap.min.css"
         th:href="@{'/bootstrap-honoka/css/bootstrap.min.css'}" />
@@ -18,10 +18,9 @@
       for (const f in htmlWebpackPlugin.files.css) {
         const css = htmlWebpackPlugin.files.css[f];
     %>
-      <link rel="stylesheet" th:href="<%=
-        css.replace(htmlWebpackPlugin.options.ejsVars.relativeStaticRoot,
-            '')
-      %>" href="<%=
+      <link rel="stylesheet" th:href="@{'<%=
+        css.replace('../../static', '')
+      %>'}" href="<%=
         htmlWebpackPlugin.options.ejsVars.relativeCompiledRoot
             + css
       %>" />
@@ -48,8 +47,7 @@
         const js = htmlWebpackPlugin.files.chunks[chunk].entry;
     %>
       <script th:src="@{'<%=
-        js.replace(htmlWebpackPlugin.options.ejsVars.relativeStaticRoot,
-            '')
+        js.replace('../../static', '')
       %>'}" src="<%=
         htmlWebpackPlugin.options.ejsVars.relativeCompiledRoot
             + js

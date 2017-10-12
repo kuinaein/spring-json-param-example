@@ -58,7 +58,10 @@ function configure() {
       minify: {
         removeComments: true,
         collapseWhitespace: true,
-        removeAttributeQuotes: true
+        // Thymeleaf requires "valid" XHTML
+        // removeAttributeQuotes: true,
+        keepClosingSlash: true,
+
         // more options:
         // https://github.com/kangax/html-minifier#options-quick-reference
       },

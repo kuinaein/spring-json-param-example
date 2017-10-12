@@ -10,6 +10,10 @@ buildscript {
 	}
 }
 
+plugins {
+	id "com.moowork.node" version "1.2.0"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -23,6 +27,19 @@ repositories {
 }
 
 
+gradle.taskGraph.whenReady { taskGraph ->
+	if (taskGraph.hasTask(release)) {
+		sourceSets {
+			main {
+				resources {
+					// exclude source maps
+					exclude '**/*.map'
+				}
+			}
+		}
+	}
+}
+
 dependencies {
 	compileOnly('org.projectlombok:lombok:1.16.18')
 
@@ -30,4 +47,70 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+task release(dependsOn: bootRepackage) {
+}
+
+task prepare(dependsOn: [':front:yarn_install', ':eclipse']) {
+}
+
+def resourceRoot =
+		projectDir.toPath().resolve('src/main/resources')
+def frontDistRoot =
+		project(':front').projectDir.toPath().resolve('dist')
+def frontResources = [
+	'static/compiled-js',
+	'static/compiled-css',
+	'templates/compiled',
+	'static/bootstrap-honoka'
+]
+
+task cleanFront(type: Delete) {
+	delete frontResources.stream().
+			map({ s -> resourceRoot.resolve(s).toString() }).
+			toArray()
+}
+
+task buildFront(dependsOn: [cleanFront, ':front:npm_run_build']) {
+	mustRunAfter prepare
+	doLast {
+		frontResources.forEach({ s ->
+			copy {
+				from frontDistRoot.resolve(s).toString()
+				into resourceRoot.resolve(s).toString()
+			}
+		})
+	}
+}
+
+bootRepackage.mustRunAfter buildFront
+
+task runJar(type: Exec) {
+	mustRunAfter bootRepackage
+	workingDir buildDir.toPath().resolve('libs').toString()
+	doFirst {
+		println 'Open http://localhost:8080/actual-ctx/foo/'
+		println 'or http://localhost:8080/actual-ctx/foo/create'
+	}
+	commandLine 'java', '-jar',
+			jar.baseName + '-' + version + '.jar'
+}
+
+task flashRun(dependsOn: [
+	prepare,
+	buildFront,
+	bootRepackage,
+	runJar
+]) {
+}
+
+project(':front') {
+	apply plugin: 'com.moowork.node'
+
+	// use Yarn instead of npm
+	npmInstall.enabled = false
+
+	npm_run_build.mustRunAfter ':cleanFront'
 }
