@@ -4,8 +4,11 @@ const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+
+
+const htmlWebpackPlugins = require('../src-html/html-webpack');
+
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
@@ -26,11 +29,7 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-      inject: true
-    }),
+    ...htmlWebpackPlugins,
     new FriendlyErrorsPlugin()
   ]
 })

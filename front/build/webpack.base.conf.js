@@ -3,6 +3,10 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const webpack = require('webpack');
+
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -42,7 +46,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+          name: utils.assetsPath('compiled-img/[name].[hash:7].[ext]')
         }
       },
       {
@@ -50,7 +54,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+          name: utils.assetsPath('compiled-media/[name].[hash:7].[ext]')
         }
       },
       {
@@ -58,9 +62,25 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+          name: utils.assetsPath('compiled-fonts/[name].[hash:7].[ext]')
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        from: './node_modules/bootstrap-honoka/dist/css/bootstrap.min.css',
+        to: utils.assetsPath('bootstrap-honoka/css'),
+      },
+      {
+        from: './node_modules/bootstrap-honoka/dist/fonts/*',
+        to: utils.assetsPath('bootstrap-honoka/fonts'),
+        flatten: true,
+      },
+    ]),
+    new webpack.ProvidePlugin({
+      jQuery: 'jquery-slim',
+    }),
+  ],
 }

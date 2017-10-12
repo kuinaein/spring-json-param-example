@@ -28,4 +28,8 @@ nbdist/
 
 
 ### front ###
+src/main/resources/templates/compiled/
+src/main/resources/static/compiled-*/
+src/main/resources/static/bootstrap-honoka/
+
 !front/**

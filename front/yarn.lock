@@ -824,6 +824,10 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
+bootstrap-honoka@^3.3.7-a:
+  version "3.3.7-a"
+  resolved "https://registry.yarnpkg.com/bootstrap-honoka/-/bootstrap-honoka-3.3.7-a.tgz#7182fa3f9b0fe38336e4c9ff6d43f6d8f99bb27a"
+
 brace-expansion@^1.1.7:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.8.tgz#c07b211c7c952ec1f8efd51a77ef0d1d3990a292"
@@ -2336,6 +2340,10 @@ isobject@^2.0.0:
 isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
+
+jquery-slim@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/jquery-slim/-/jquery-slim-3.0.0.tgz#87ab2fa10501798e93124a4b5eb953c85379707e"
 
 js-base64@^2.1.9:
   version "2.3.2"
