@@ -19,7 +19,7 @@
         const css = htmlWebpackPlugin.files.css[f];
     %>
       <link rel="stylesheet" th:href="@{'<%=
-        css.replace('../../static', '')
+        css.replace('../static', '')
       %>'}" href="<%=
         htmlWebpackPlugin.options.ejsVars.relativeCompiledRoot
             + css
@@ -47,7 +47,7 @@
         const js = htmlWebpackPlugin.files.chunks[chunk].entry;
     %>
       <script th:src="@{'<%=
-        js.replace('../../static', '')
+        js.replace('../static', '')
       %>'}" src="<%=
         htmlWebpackPlugin.options.ejsVars.relativeCompiledRoot
             + js

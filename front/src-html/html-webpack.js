@@ -16,15 +16,16 @@ function generateHtmlWebpackSettings() {
     let relativeStaticRoot;
     let relativeCompiledRoot;
     if ('production' === process.env.NODE_ENV) {
-      // /templates/compiled/... => /static
+      // /templates/... => /templates/
       const depth = f.replace(/[^/]/g, '').length;
       const relativeTemplateRoot =
           new Array(depth).fill('..').join('/');
+      // /templates/ => /static
       if ('' === relativeTemplateRoot) {
-        relativeStaticRoot = '../../static';;
+        relativeStaticRoot = '../static';;
         relativeCompiledRoot = '';
       } else {
-        relativeStaticRoot = relativeTemplateRoot + '/../../static';
+        relativeStaticRoot = relativeTemplateRoot + '/../static';
         relativeCompiledRoot = relativeTemplateRoot + '/';
       }
     } else {

@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WebpackController {
 	@GetMapping("/")
 	public String index() {
-		return "compiled/index";
+		return "index";
 	}
 	
 	@GetMapping("/create")
 	public String create() {
-		return "compiled/a/create";
+		return "a/create";
 	}
 }

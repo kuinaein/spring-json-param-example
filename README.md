@@ -22,7 +22,7 @@
 * npm
 * Yarn
 
-## Demo
+## Run Sample App
 1. Enter following commands
   ``` bash
   git clone git@github.com:kuinaein/spring-webpack.git

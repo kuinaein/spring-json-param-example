@@ -11,7 +11,7 @@ buildscript {
 }
 
 plugins {
-	id "com.moowork.node" version "1.2.0"
+	id "com.moowork.node" version "1.2.0" apply false
 }
 
 apply plugin: 'java'
@@ -19,30 +19,37 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 group = 'kuina.spring_webpack'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = 1.8
+gradle.taskGraph.whenReady { taskGraph ->
+	if (taskGraph.hasTask(release)) {
+		version = version + '-SNAPSHOT'
+	}
+}
+
+
+def frontProject = project('front')
+
+sourceSets.main.resources {
+	srcDirs = [
+		projectDir.toPath().resolve('src/main/resources').toString(),
+		frontProject.projectDir.toPath().resolve('dist').toString()
+	]
+}
+gradle.taskGraph.whenReady { taskGraph ->
+	if (taskGraph.hasTask(release)) {
+		// exclude source maps
+		sourceSets.main.resources {
+			exclude '**/*.map'
+		}
+	}
+}
 
 repositories {
 	mavenCentral()
 }
 
-
-gradle.taskGraph.whenReady { taskGraph ->
-	if (taskGraph.hasTask(release)) {
-		sourceSets {
-			main {
-				resources {
-					// exclude source maps
-					exclude '**/*.map'
-				}
-			}
-		}
-	}
-}
-
 dependencies {
-	compileOnly('org.projectlombok:lombok:1.16.18')
-
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
 
@@ -50,39 +57,19 @@ dependencies {
 }
 
 
-task release(dependsOn: bootRepackage) {
+project(frontProject.name) {
+	apply plugin: 'com.moowork.node'
+
+	// use Yarn instead of npm
+	npmInstall.enabled = false
 }
 
-task prepare(dependsOn: [':front:yarn_install', ':eclipse']) {
+
+task prepare(dependsOn: [frontProject.yarn_install, ':eclipse']) {
 }
 
-def resourceRoot =
-		projectDir.toPath().resolve('src/main/resources')
-def frontDistRoot =
-		project(':front').projectDir.toPath().resolve('dist')
-def frontResources = [
-	'static/compiled-js',
-	'static/compiled-css',
-	'templates/compiled',
-	'static/bootstrap-honoka'
-]
-
-task cleanFront(type: Delete) {
-	delete frontResources.stream().
-			map({ s -> resourceRoot.resolve(s).toString() }).
-			toArray()
-}
-
-task buildFront(dependsOn: [cleanFront, ':front:npm_run_build']) {
+task buildFront(dependsOn: frontProject.npm_run_build) {
 	mustRunAfter prepare
-	doLast {
-		frontResources.forEach({ s ->
-			copy {
-				from frontDistRoot.resolve(s).toString()
-				into resourceRoot.resolve(s).toString()
-			}
-		})
-	}
 }
 
 bootRepackage.mustRunAfter buildFront
@@ -106,11 +93,5 @@ task flashRun(dependsOn: [
 ]) {
 }
 
-project(':front') {
-	apply plugin: 'com.moowork.node'
-
-	// use Yarn instead of npm
-	npmInstall.enabled = false
-
-	npm_run_build.mustRunAfter ':cleanFront'
+task release(dependsOn: bootRepackage) {
 }
