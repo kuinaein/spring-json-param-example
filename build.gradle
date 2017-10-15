@@ -53,7 +53,18 @@ dependencies {
 	// https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
 	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
 
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jdk8
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8' //, version: '2.9.0'
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310' //, version: '2.9.0'
+
+	def thymeleafVersion = '3.0.7.RELEASE'
+	// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring4
+	compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: thymeleafVersion
+	// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
+	compile group: 'org.thymeleaf', name: 'thymeleaf', version: thymeleafVersion
+
+	// compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
 
 	runtime('org.springframework.boot:spring-boot-devtools')

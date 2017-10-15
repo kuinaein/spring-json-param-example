@@ -71,7 +71,7 @@
       var contextPath = /*[[@{'/'}]]*/ '<%=
         htmlWebpackPlugin.options.ejsVars.dummyContextPath
       %>';
-      var foo = /*[[<%='$'%>{foo}]]*/ <%=
+      var foo = /*[(<%='$'%>{foo})]*/ <%=
         JSON.stringify(htmlWebpackPlugin.options.ejsVars.foo).
             replace(/\//g, '\\u002f'). // escape </ script>
             replace(/>/g, '\\u003e') // escape ]] >
