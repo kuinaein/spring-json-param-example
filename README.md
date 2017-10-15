@@ -14,7 +14,7 @@
 * Based on the Vue webpack template
 * Little improved dev server support: `npm run dev`
 * Server-side templates are generated from a EJS template and JS variables by HtmlWebpackPlugin
-  * NOTE: To output '$', use `<%='$'%>` in EJS templates
+* (Only 'typescript' branch) TypeScript and vue-class-component
 * Bootstrap 3 (theme: [Honoka](http://honokak.osaka/bootstrap.html))
 
 ## Requirements
