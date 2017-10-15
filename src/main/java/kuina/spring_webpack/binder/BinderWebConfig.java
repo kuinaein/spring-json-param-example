@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 @Configuration
-public class WebMvcConfig extends WebMvcConfigurerAdapter {
+public class BinderWebConfig extends WebMvcConfigurerAdapter {
 	static final String HANDLER_KEY = "kuina.handler";
 
 	@Override

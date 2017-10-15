@@ -26,7 +26,7 @@ public class ControllerCommon {
 	private final ObjectMapper objectMapper;
 
 	private Optional<MethodParameter> getJsonModelParam(final HttpServletRequest req) {
-		final HandlerMethod handler = (HandlerMethod) req.getAttribute(WebMvcConfig.HANDLER_KEY);
+		final HandlerMethod handler = (HandlerMethod) req.getAttribute(BinderWebConfig.HANDLER_KEY);
 		if (null == handler || !handler.hasMethodAnnotation(JsonParamModel.class)) {
 			return Optional.empty();
 		}

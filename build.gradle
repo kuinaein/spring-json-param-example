@@ -51,7 +51,7 @@ repositories {
 
 dependencies {
 	// https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
-	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+	compile group: 'commons-beanutils', name: 'commons-beanutils' //, version: '1.9.3'
 
 	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jdk8
 	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8' //, version: '2.9.0'
