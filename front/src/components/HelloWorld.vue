@@ -10,17 +10,22 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
+
+@Component<Vue>({
   name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App',
-      // injected in HTML
-      foo,
-      contextPath,
-    }
-  }
+})
+export default class HelloWorld extends Vue {
+  public msg: string = 'Welcome to Your Vue.js App';
+
+  @Prop({ required: true })
+  public foo: {};
+
+  @Prop({ required: true })
+  public contextPath: string;
 }
 </script>
 

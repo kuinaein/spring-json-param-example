@@ -1,18 +1,28 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
-    <hello-world/>
+    <hello-world :foo="foo" :contextPath="contextPath" />
   </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld'
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop } from 'vue-property-decorator';
 
-export default {
+import HelloWorld from './components/HelloWorld';
+
+@Component<Vue>({
   name: 'app',
   components: {
-    HelloWorld
-  }
+    HelloWorld,
+  },
+})
+export default class App extends Vue {
+  @Prop({ required: true })
+  public foo: {};
+
+  @Prop({ required: true })
+  public contextPath: string;
 }
 </script>
 
