@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>front</title>
+    <title th:text="<%='$'%>{title}">
+      <%= htmlWebpackPlugin.options.ejsVars.foo.bar %>
+    </title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="<%=
@@ -35,14 +37,43 @@
   </head>
   <body class="container">
     <div id="app"></div>
-    <h1>htmlWebpackPlugin</h1>
-    <pre><%=
-      JSON.stringify(htmlWebpackPlugin, null, 2)
-    %></pre>
-    <h1>webpackConfig</h1>
-    <pre><%=
-      JSON.stringify(webpackConfig, null, 2)
-    %></pre><%
+    <div class="panel panel-default">
+      <div class="panel-heading"><h3 class="panel-title">
+        <a data-toggle="collapse" href="#vars-html-webpack-plugin">
+          htmlWebpackPlugin
+        </a>
+      </h3></div>
+      <div id="vars-html-webpack-plugin" class="panel-collapse collapse">
+        <pre class="panel-body"><%=
+          JSON.stringify(htmlWebpackPlugin, null, 2).
+              replace(/>/g, '&gt;') // escape ]]>
+        %></pre>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading"><h3 class="panel-title">
+        <a data-toggle="collapse" href="#vars-webpack-config">
+          webpackConfig
+        </a>
+      </h3></div>
+      <div id="vars-webpack-config" class="panel-collapse collapse">
+        <pre class="panel-body"><%=
+          JSON.stringify(webpackConfig, null, 2).
+              replace(/>/g, '&gt;') // escape ]]>
+        %></pre>
+      </div>
+    </div>
+
+    <script th:inline="javascript">/*<![CDATA[*/
+      var contextPath = /*[[@{'/'}]]*/ '<%=
+        htmlWebpackPlugin.options.ejsVars.dummyContextPath
+      %>';
+      var foo = /*[[<%='$'%>{foo}]]*/ <%=
+        JSON.stringify(htmlWebpackPlugin.options.ejsVars.foo).
+            replace(/\//g, '\\u002f'). // escape </ script>
+            replace(/>/g, '\\u003e') // escape ]] >
+      %>;
+    /*]]>*/</script><%
       for (const chunk in htmlWebpackPlugin.files.chunks) {
         const js = htmlWebpackPlugin.files.chunks[chunk].entry;
     %>

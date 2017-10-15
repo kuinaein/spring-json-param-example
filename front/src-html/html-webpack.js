@@ -4,43 +4,20 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = require('../config');
 
-const outputFiles = [
-  'index',
-  'a/index',
-  'a/create',
-];
+const pages = require('./pages');
 
 function generateHtmlWebpackSettings() {
   const baseConfig = configure();
-  return outputFiles.map(f => {
-    let relativeStaticRoot;
-    let relativeCompiledRoot;
-    if ('production' === process.env.NODE_ENV) {
-      // /templates/... => /templates/
-      const depth = f.replace(/[^/]/g, '').length;
-      const relativeTemplateRoot =
-          new Array(depth).fill('..').join('/');
-      // /templates/ => /static
-      if ('' === relativeTemplateRoot) {
-        relativeStaticRoot = '../static';;
-        relativeCompiledRoot = '';
-      } else {
-        relativeStaticRoot = relativeTemplateRoot + '/../static';
-        relativeCompiledRoot = relativeTemplateRoot + '/';
-      }
-    } else {
-      relativeStaticRoot =
-          config.dev.assetsPublicPath + config.dev.assetsSubDirectory;
-      relativeCompiledRoot = '';
-    }
-
+  return pages.map(page => {
+    const relPath = page.path.startsWith('/') ?
+        page.path.substring(1) : page.path;
+    const roots = resolveRelativeRoots(relPath);
     const htmlWebpackConfig = Object.assign({
-      filename: f + '.html',
-      ejsVars: {
-        relativeStaticRoot,
-        relativeCompiledRoot,
-      },
+      filename: relPath +
+          (page.path.endsWith('/') ? 'index.html' : '.html'),
     }, baseConfig);
+    htmlWebpackConfig.ejsVars = Object.assign(roots,
+        baseConfig.ejsVars, page);
     return new HtmlWebpackPlugin(htmlWebpackConfig);
   });
 }
@@ -71,6 +48,34 @@ function configure() {
     })
   }
   return baseConfig;
+}
+
+function resolveRelativeRoots(pagePath) {
+  let relativeStaticRoot;
+  let relativeCompiledRoot;
+  // /templates/... => /templates/
+  const depth = pagePath.replace(/[^/]/g, '').length;
+  const relativeTemplateRoot =
+      new Array(depth).fill('..').join('/');
+  if ('production' === process.env.NODE_ENV) {
+    // /templates/ => /static
+    if ('' === relativeTemplateRoot) {
+      relativeStaticRoot = '../static';;
+      relativeCompiledRoot = '';
+    } else {
+      relativeStaticRoot = relativeTemplateRoot + '/../static';
+      relativeCompiledRoot = relativeTemplateRoot + '/';
+    }
+  } else { // development env.
+    relativeStaticRoot =
+        config.dev.assetsPublicPath + config.dev.assetsSubDirectory;
+    relativeCompiledRoot = '';
+  }
+  return {
+    relativeStaticRoot,
+    relativeCompiledRoot,
+    dummyContextPath: relativeTemplateRoot,
+  }
 }
 
 module.exports = generateHtmlWebpackSettings();
