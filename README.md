@@ -15,6 +15,7 @@
 * Little improved dev server support: `npm run dev`
 * Server-side templates are generated from a EJS template and JS variables by HtmlWebpackPlugin
 * (Only 'typescript' branch) TypeScript and vue-class-component
+* Code Splitting (chunks)
 * Bootstrap 3 (theme: [Honoka](http://honokak.osaka/bootstrap.html))
 
 ## Requirements

@@ -17,8 +17,11 @@
 
     <%
       // refs: https://www.npmjs.com/package/webpack-subresource-integrity
-      for (const f in htmlWebpackPlugin.files.css) {
-        const css = htmlWebpackPlugin.files.css[f];
+      for (const chunkName in htmlWebpackPlugin.files.chunks) {
+        if (htmlWebpackPlugin.options.ejsVars.chunks.includes(chunkName)) {
+          const chunk = htmlWebpackPlugin.files.chunks[chunkName];
+          for (const f in chunk.css) {
+            const css = htmlWebpackPlugin.files.css[f];
     %>
       <link rel="stylesheet" th:href="@{'<%=
         css.replace('../static', '')
@@ -26,7 +29,7 @@
         htmlWebpackPlugin.options.ejsVars.relativeCompiledRoot
             + css
       %>" />
-    <% } %>
+    <% } } } %>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -74,8 +77,9 @@
             replace(/>/g, '\\u003e') // escape ]] >
       %>;
     /*]]>*/</script><%
-      for (const chunk in htmlWebpackPlugin.files.chunks) {
-        const js = htmlWebpackPlugin.files.chunks[chunk].entry;
+      for (const chunkName in htmlWebpackPlugin.files.chunks) {
+        if (htmlWebpackPlugin.options.ejsVars.chunks.includes(chunkName)) {
+          const js = htmlWebpackPlugin.files.chunks[chunkName].entry;
     %>
       <script th:src="@{'<%=
         js.replace('../static', '')
@@ -83,6 +87,6 @@
         htmlWebpackPlugin.options.ejsVars.relativeCompiledRoot
             + js
       %>"></script>
-    <% } %>
+    <% } } %>
   </body>
 </html>

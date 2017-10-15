@@ -1,4 +1,4 @@
-require('bootstrap-honoka/dist/js/bootstrap.min.js');
+import 'bootstrap-honoka/dist/js/bootstrap.min.js';
 
 import Vue from 'vue'
 import App from './App'

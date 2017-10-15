@@ -6,6 +6,9 @@ const config = require('../config');
 
 const pages = require('./pages');
 
+
+const COMMON_CHUNKS = ['manifest', 'vendor'];
+
 function generateHtmlWebpackSettings() {
   const baseConfig = configure();
   return pages.map(page => {
@@ -18,6 +21,8 @@ function generateHtmlWebpackSettings() {
     }, baseConfig);
     htmlWebpackConfig.ejsVars = Object.assign(roots,
         baseConfig.ejsVars, page);
+    Array.prototype.push.apply(htmlWebpackConfig.ejsVars.chunks,
+        COMMON_CHUNKS);
     return new HtmlWebpackPlugin(htmlWebpackConfig);
   });
 }
