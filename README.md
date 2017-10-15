@@ -1,39 +1,28 @@
-# Webpack (Vue.js) and Spring Boot Sample Project
-* Not SPA - multilple HTML templates
-* Context path support
-* A Gradle build script for both server-side and client-side project with gradle-node-plugin
+# Spring Boot で特定のリクエストパラメータを JSON として ModelAttribute に読み込ませるサンプル
 
-## Server Side
-* Based on a Spring Initializr template
-* Thymeleaf templates for server-side variable injection
-* Locally-runnable HTMLs (after building the front project)
-  * `./gradlew prepare buildFront` to build the front project
-* Eclipse (and STS) support: `./gradlew prepare`
+hidden フィールド `json` の内容を Jackson で読み込み、 ModelAttribute にセットするサンプルです。下記のペインを解消するための試作品です。
 
-## Client Side
-* Based on the Vue webpack template
-* Little improved dev server support: `npm run dev`
-* Server-side templates are generated from a EJS template and JS variables by HtmlWebpackPlugin
-* (Only 'typescript' branch) TypeScript and vue-class-component
-* Code Splitting (chunks)
-* Bootstrap 3 (theme: [Honoka](http://honokak.osaka/bootstrap.html))
+* 今どきフォーム送信のためにちまちま hidden フィールドを仕込みたくない
+* Ajax 通信やクライアントサイドでの画面遷移制御もあまりしたくない
 
-## Requirements
+`kuina.spring_webpack.binder` パッケージのソースが全てです。
+フロント側にもごちゃごちゃ色々と入っていますが、あまり本題と関係ありません。
+
+## ビルドに必要なもの
 * Java 8 or later
 * npm
 * Yarn
 
-## Run Sample App
-1. Enter following commands
+## 実行方法
+1. シェルで下記のコマンドを実行します
   ``` bash
-  git clone git@github.com:kuinaein/spring-webpack.git
-  cd spring-webpack
+  git clone git@github.com:kuinaein/spring-json-param-example.git
+  cd spring-json-param-example
   ./gradlew flashRun
   ```
-2. Wait for build and app initialization
-3. Open http://localhost:8080/actual-ctx/foo/create
+2. ビルド及びアプリケーション初期化を待ちます
+3. ブラウザで http://localhost:8080/ を開きます
+4. 一番上のボタンを押下します
 
-## License
-CC0 1.0 Universal (**except vue-webpack-boilerplate originated code**)
-
-https://creativecommons.org/publicdomain/zero/1.0/
+## ライセンス
+CC0 1.0 (**ただし、フロント側の vue-webpack-boilerplate 由来コードを除きます**)

@@ -1,2 +1,2 @@
-server:
-  contextPath: /actual-ctx
+#server:
+#  contextPath: /actual-ctx

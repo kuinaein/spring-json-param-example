@@ -15,7 +15,6 @@ function resolve (dir) {
 module.exports = {
   entry: {
     app: './src/main.ts',
-    app2: './src/main2.ts',
   },
   output: {
     path: config.build.assetsRoot,

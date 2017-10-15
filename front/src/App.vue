@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <hello-world :foo="foo" :contextPath="contextPath" />
+    <button @click="submit" type="button" class="btn btn-primary">
+      押してください
+    </button>
+    <dummy-form ref="form" />
   </div>
 </template>
 
@@ -9,30 +12,24 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
 
-import HelloWorld from './components/HelloWorld';
+import DummyForm from './components/DummyForm';
 
 @Component<Vue>({
   name: 'app',
   components: {
-    HelloWorld,
+    DummyForm,
   },
 })
 export default class App extends Vue {
+  public $refs: {
+    form: DummyForm;
+  };
+
   @Prop({ required: true })
   public foo: {};
 
-  @Prop({ required: true })
-  public contextPath: string;
+  public submit() {
+    this.$refs.form.submit(this.foo);
+  }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
