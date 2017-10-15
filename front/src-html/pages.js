@@ -1,4 +1,6 @@
-module.exports = [
+const DEFAULT_CHUNKS = ['app'];
+
+const pages = [
   {
     path: '/',
     foo: {
@@ -8,6 +10,7 @@ module.exports = [
   },
   {
     path: '/a/',
+    chunks: ['app2'],
     foo: {
       bar: 'zwei',
       baz: ']]>&quot;\n\"\'</script>',
@@ -21,3 +24,10 @@ module.exports = [
     },
   },
 ];
+
+module.exports = pages.map(p => {
+  if (!p.chunks) {
+    p.chunks = DEFAULT_CHUNKS;
+  }
+  return p;
+});
