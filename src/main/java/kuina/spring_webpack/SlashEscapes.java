@@ -11,6 +11,7 @@ class SlashEscapes extends CharacterEscapes {
 	public SlashEscapes() {
 		int[] esc = CharacterEscapes.standardAsciiEscapesForJSON();
 		esc['/'] = CharacterEscapes.ESCAPE_STANDARD;
+		esc['>'] = CharacterEscapes.ESCAPE_STANDARD;
 		this.asciiEscapes = esc;
 	}
 
