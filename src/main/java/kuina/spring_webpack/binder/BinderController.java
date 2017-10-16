@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,10 +38,8 @@ public class BinderController {
 	@RequestMapping(method = RequestMethod.POST, path = "/", produces = "text/plain")
 	@JsonParamModel
 	@ResponseBody
-	// @formatter:off
-	public String post(@ModelAttribute("foo") @Validated
-			final MyForm fooHolder, final BindingResult bindingResult) {
-	// @formatter:on
+	public String post(@ModelAttribute @Validated final MyForm fooHolder, final BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
 		return fooHolder.toString() + "\n\n" + bindingResult.toString();
 	}
 
